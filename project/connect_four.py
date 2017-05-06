@@ -5,40 +5,60 @@ about/instructions
 """
 
 #print "Hello, World!"
+
+""" initialize board object with rows and columns
+    could later be replaced with a function that intakes
+    user defined board size
+"""
+
 board = []
 cols = 7
 rows = 6
 
 def create_board():
-    # create a new board and initialize all spaces to zero
+    """ create a new board and initialize all spaces to zero
 
-    for i in range(cols):
-        for j in range(rows):
-            board.append(0)
+        for now, this function creates a new board, initializes
+        all places to zero and displays the board
+
+    NICE TO HAVE:
+        by returning the board and using as parameters for other
+        board sizes, other functions should be able to handle
+        changing board sizes
+    """
+
+    for i in range(rows):
+        board.append([])
+        for j in range(cols):
+            board[i].append(0)
 
     return board
 
-
-
-#    print board
-
 def display_board(board):
-    # display the board
+    """ display the board
 
-#    print "\n"
-#    print "\n".join(str(board[:]))
-#    print "\n"
+        decided to separate the displaying of the board from the creating
+        of a new board so that it will be easier to later implement a new
+        game function.
+    """
 
-#    print str(board)
-
+    print "\n"
     for row in board:
-#        print " ".join(str(board[i]))
-        if row % cols == 0:
-            print '\n'
-        print board[row]
-#    print('\n'.join([''.join(['{:}'.format(item) for str(item) in row])
-#      for row in board]))
+#        print " ".join(str(row))
+        print "\t\t\t" + str(row)
+    print "\n"
 
+#def input_next_move(board):
+    """ input coordinates for next move based on user input
+
+    """
+
+
+
+"""
+    end of defining functions
+    begin calling functions
+"""
 
 create_board()
 display_board(board)
