@@ -33,9 +33,9 @@ def display_board(board):
 
     for row in board:
 #        print " ".join(str(board[i]))
-        if i % cols == 0:
+        if row % cols == 0:
             print '\n'
-        print board[i]
+        print board[row]
 #    print('\n'.join([''.join(['{:}'.format(item) for str(item) in row])
 #      for row in board]))
 
