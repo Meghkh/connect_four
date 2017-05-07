@@ -61,6 +61,7 @@ def input_next_move(board, player_flag, win_flag):
     """ input coordinates for next move based on user input
 
         NEED TO ADD
+            - diagonal win conditions
             - user input sanitation to keep indexing of array within range
 
     """
@@ -91,31 +92,34 @@ def input_next_move(board, player_flag, win_flag):
 def check_win_conditions(board, win_flag):
     """ checks for a win condition by either user
 
+        NEED TO ADD:
+            - diagonal win conditions
+            - condition check sanitation to stay in the board
     """
 
     board_height = len(board)
     board_width = len(board[0])
 
+    # checks for horizontal win condition
     for i in range(board_height):
         for j in range(board_width - 3):
-
-            # checks for horizontal win condition
             if board[i][j] == 1 and board[i][j+1] == 1 and board[i][j+2] == 1 and board[i][j+3] == 1:
                 win_flag = 1
             elif board[i][j] == 2 and board[i][j+1] == 2 and board[i][j+2] == 2 and board[i][j+3] == 2:
                 win_flag = 2
 
-            # checks for vertical win condition
+
+    # checks for vertical win condition
+    for i in range(board_height - 3):
+        for j in range(board_width):
             if board[i][j] == 1 and board[i+1][j] == 1 and board[i+2][j] == 1 and board[i+3][j] == 1:
                 win_flag = 1
             elif board[i][j] == 2 and board[i+1][j] == 2 and board[i+2][j] == 2 and board[i+3][j] == 2:
                 win_flag = 2
 
+    # check for diagonal win condition UL to LR
 
-
-            # check for diagonal win condition UL to LR
-
-            # checks for diagonal win condition LL to UP
+    # checks for diagonal win condition LL to UP
 
 
     if win_flag != 0:
