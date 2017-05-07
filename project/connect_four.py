@@ -16,6 +16,7 @@ cols = 7
 rows = 6
 
 player_flag = 1
+win_flag = 0
 
 def create_board():
     """ create a new board and initialize all spaces to zero
@@ -23,7 +24,6 @@ def create_board():
         for now, this function creates a new board, initializes
         all places to zero and displays the board
 
-    NICE TO HAVE:
         by returning the board and using as parameters for other
         board sizes, other functions should be able to handle
         changing board sizes
@@ -57,16 +57,22 @@ def display_board(board):
 
 
 
-def input_next_move(board, player_flag):
+def input_next_move(board, player_flag, win_flag):
     """ input coordinates for next move based on user input
+
+        NEED TO ADD
+            - user input sanitation to keep indexing of array within range
 
     """
 
     print "Select coordinates for next move, Player", player_flag, ":\n"
+#    while row_coordinate != range()
     row_coordinate = int(raw_input(" Which row? "))
+
+
     col_coordinate = int(raw_input(" Which col? "))
 
-    if board[row_coordinate-1][col_coordinate-1] != 0:
+    if board[row_coordinate - 1][col_coordinate - 1] != 0:
         print "Coordinate is occupied! Try again!"
     else:
         board[row_coordinate - 1][col_coordinate - 1] = player_flag
@@ -77,11 +83,40 @@ def input_next_move(board, player_flag):
             player_flag -= 1
 
     display_board(board)
+    check_win_conditions(board, win_flag)
+    input_next_move(board, player_flag, win_flag)
 
 
 
-    input_next_move(board, player_flag)
+def check_win_conditions(board, win_flag):
+    """ checks for a win condition by either user
 
+    """
+
+    board_height = len(board)
+    board_width = len(board[0])
+
+    for i in range(board_height):
+        for j in range(board_width - 3):
+
+            # checks for horizontal win condition
+
+
+            # checks for vertical win condition
+            if board[i][j] == 1 and board[i+1][j] == 1 and board[i+2][j] == 1 and board[i+3][j] == 1:
+                win_flag = 1
+            elif board[i][j] == 2 and board[i+1][j] == 2 and board[i+2][j] == 2 and board[i+3][j] == 2:
+                win_flag = 2
+
+
+
+            # check for diagonal win condition UL to LR
+
+            # checks for diagonal win condition LL to UP
+
+
+    if win_flag != 0:
+        print "Congrats, Player", str(win_flag), "you won!"
 
 """
     end of defining functions
@@ -90,4 +125,9 @@ def input_next_move(board, player_flag):
 
 create_board()
 display_board(board)
-input_next_move(board, player_flag)
+#check_win_conditions(board, win_flag)
+input_next_move(board, player_flag, win_flag)
+
+
+#while check_win_conditions(board, win_flag) == 0:
+#    input_next_move(board, player_flag, win_flag)
