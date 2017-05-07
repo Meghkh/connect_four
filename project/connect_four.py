@@ -100,7 +100,10 @@ def check_win_conditions(board, win_flag):
         for j in range(board_width - 3):
 
             # checks for horizontal win condition
-
+            if board[i][j] == 1 and board[i][j+1] == 1 and board[i][j+2] == 1 and board[i][j+3] == 1:
+                win_flag = 1
+            elif board[i][j] == 2 and board[i][j+1] == 2 and board[i][j+2] == 2 and board[i][j+3] == 2:
+                win_flag = 2
 
             # checks for vertical win condition
             if board[i][j] == 1 and board[i+1][j] == 1 and board[i+2][j] == 1 and board[i+3][j] == 1:
