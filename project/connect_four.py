@@ -4,10 +4,9 @@ Connect Four game
 about/instructions
 
     STILL TO DO:
-        - diagonal win conditions
-        - win condition santization to stay in range
+        - win condition sanitization to stay in range - COMPLETE but needs testing
         - user input sanitization to stay in range
-        - have win condition terminate game
+        - have win condition terminate game - COMPLETE
         - include row and column identifiers to improve UX
 """
 
@@ -19,6 +18,10 @@ about/instructions
 """
 
 board = []
+
+#board_height = len(board)
+#board_width = len(board[0])
+
 cols = 7
 rows = 6
 
@@ -48,18 +51,13 @@ def create_board():
 def display_board(board):
     """ display the board
         include row and column identifiers to help users select move
-
-        separate the displaying of the board from the creating
-        of a new board so that board can be viewed without
-        re-initializing
     """
 
     print "\n"
-    print "\tROWS\n\t\tCOLUMNS"
+    print "\tROWS\n\t\tCOLUMNS", range(1, cols+1), "\n"
 #    print "\t\t\tCOLUMNS"
-    for row in board:
-#        print " ".join(str(row))
-        print "\t\t", "", "\t", str(row)
+    for i in range(rows):
+        print "\t  ", i+1, "\t", "", "\t", str(board[i])
     print "\n"
 
 
@@ -73,28 +71,42 @@ def input_next_move(board, player_flag, win_flag):
 
     """
 
+    board_height = len(board)
+    board_width = len(board[0])
+
     print "Select coordinates for next move, Player", player_flag, ":\n"
-#    while row_coordinate != range()
+#    row_coordinate = 0
+#    while row_coordinate != range(board_height-1)
+#    row_coordinate = int(raw_input(" Which row? "))
+#    while row_coordinate != range(board_height - 1):
+#        row_coordinate = int(raw_input("Invalid row selection! Try again: "))
+#    col_coordinate = int(raw_input(" Which col? "))
+#    while col_coordinate != range(board_width - 1):
+#        col_coordinate = int(raw_input("Invalid column selectoin! Try again: "))
+
     row_coordinate = int(raw_input(" Which row? "))
-
-
-    col_coordinate = int(raw_input(" Which col? "))
+    col_coordinate = int(raw_input(" Which column? "))
 
     if board[row_coordinate - 1][col_coordinate - 1] != 0:
         print "Coordinate is occupied! Try again!"
     else:
         board[row_coordinate - 1][col_coordinate - 1] = player_flag
         # switch player_flag only when valid move is made
-        if player_flag == 1:
-            player_flag += 1
-        else:
-            player_flag -= 1
 
     display_board(board)
-    print win_flag, "\n"
+#    print win_flag, "\n"
     win_flag = check_win_conditions(board, win_flag)
-    print win_flag, "\n"
-    input_next_move(board, player_flag, win_flag)
+#    print win_flag, "\n"
+#    input_next_move(board, player_flag, win_flag)
+    return win_flag
+
+def toggle_player_move(player_move):
+    if player_move == 1:
+        player_move += 1
+    else:
+        player_move -= 1
+    return player_move
+
 
 
 
@@ -148,6 +160,8 @@ def check_win_conditions(board, win_flag):
     return win_flag
 
 """
+
+
     end of defining functions
     begin calling functions
 """
@@ -155,8 +169,15 @@ def check_win_conditions(board, win_flag):
 create_board()
 display_board(board)
 #check_win_conditions(board, win_flag)
-input_next_move(board, player_flag, win_flag)
+#print "input next move is: \n"
+#print input_next_move(board, player_flag, win_flag)
+#input_next_move(board, player_flag, win_flag)
 
 
-while win_flag == 0:
-    input_next_move(board, player_flag, win_flag)
+while input_next_move(board, player_flag, win_flag) == 0:
+    toggle = toggle_player_move(player_flag)
+    keep_going = input_next_move(board, toggle, win_flag)
+    if keep_going != 0:
+#        print "hello!"
+        print "Congrats, Player", str(win_flag), "you won!"
+        break
