@@ -2,6 +2,13 @@
 Connect Four game
 
 about/instructions
+
+    STILL TO DO:
+        - diagonal win conditions
+        - win condition santization to stay in range
+        - user input sanitization to stay in range
+        - have win condition terminate game
+        - include row and column identifiers to improve UX
 """
 
 #print "Hello, World!"
@@ -84,7 +91,9 @@ def input_next_move(board, player_flag, win_flag):
             player_flag -= 1
 
     display_board(board)
-    check_win_conditions(board, win_flag)
+    print win_flag, "\n"
+    win_flag = check_win_conditions(board, win_flag)
+    print win_flag, "\n"
     input_next_move(board, player_flag, win_flag)
 
 
@@ -118,12 +127,25 @@ def check_win_conditions(board, win_flag):
                 win_flag = 2
 
     # check for diagonal win condition UL to LR
+    for i in range(board_height - 3):
+        for j in range(board_width - 3):
+            if board[i][j] == 1 and board[i+1][j+1] == 1 and board[i+2][j+2] == 1 and board[i+3][j+3] == 1:
+                win_flag = 1
+            elif board[i][j] == 2 and board[i+1][j+1] == 2 and board[i+2][j+2] == 2 and board[i+3][j+3] == 2:
+                win_flag = 2
 
     # checks for diagonal win condition LL to UP
-
+    for i in range(3, board_height):
+        for j in range(board_width - 3):
+            if board[i][j] == 1 and board[i-1][j+1] == 1 and board[i-2][j+2] == 1 and board[i-3][j+3] == 1:
+                win_flag = 1
+            elif board[i][j] == 2 and board[i-1][j+1] == 2 and board[i-2][j+2] == 2 and board[i-3][j+3] == 2:
+                win_flag = 2
 
     if win_flag != 0:
         print "Congrats, Player", str(win_flag), "you won!"
+
+    return win_flag
 
 """
     end of defining functions
@@ -136,5 +158,5 @@ display_board(board)
 input_next_move(board, player_flag, win_flag)
 
 
-#while check_win_conditions(board, win_flag) == 0:
-#    input_next_move(board, player_flag, win_flag)
+while win_flag == 0:
+    input_next_move(board, player_flag, win_flag)
